@@ -25,6 +25,11 @@ var app = angular.module('baron', ['ui.router','ngMask','720kb.datepicker','ngSa
           url: "/RelatorioFechamento",
           templateUrl: "views/relatorio_fechamento.html",
           controller: "relatorioCtrl"
+        })          
+        .state('menu.precos', {
+          url: "/Precos",
+          templateUrl: "views/precos.html",
+          controller: "precosCtrl"
         })            
         .state('login', {
           url: "/Login",
@@ -269,10 +274,6 @@ app.controller("pedidosCtrl", ['$scope', '$http', '$rootScope','DateProvider', f
 
     }
 
-    $s.getAll = function (){
-        $s.getPedidos();
-    }
-
 }]);
 
 app.controller("estoqueCtrl", ['$scope', '$http', '$rootScope','DateProvider', function ($s, $http, $rs, Date) {
@@ -400,12 +401,6 @@ app.controller("relatorioCtrl", ['$scope', '$http', '$rootScope','DateProvider',
 
     var classe = 'Pedido';
 
-    $s.goRota = function(rota){ 
-        if (rota) {
-            $location.path(rota);
-        }
-    };
-
     $s.getPedidosByMesAno = function(oRelatorio){
 
         if (!oRelatorio.mes || !oRelatorio.ano) { 
@@ -424,49 +419,52 @@ app.controller("relatorioCtrl", ['$scope', '$http', '$rootScope','DateProvider',
 
     };     
 
-
-    $s.deleteEstoque = function(oEstoque){
-
-        $s.func = 'deleteEstoque';
-
-        $http.post(SERVER_PATH + "redirect.php?func=" + $s.func + "&c=" + classe, {
-            oEstoque: oEstoque
-        }).success(function(result){
-            $s.getEstoques();           
-        });
-
-    }         
-     
-
-
-    $s.changeEntrega = function(oPedido){
-
-       $s.func = 'changeEntrega';
-
-        $http.post(SERVER_PATH + "redirect.php?func=" + $s.func + "&c=" + classe, {
-            oPedido: oPedido
-        }).success(function(result){
-            $s.getPedidos();           
-        });
-
-    }   
-
-    $s.changePagamento = function(oPedido){
-
-       $s.func = 'changePagamento';
-
-        $http.post(SERVER_PATH + "redirect.php?func=" + $s.func + "&c=" + classe, {
-            oPedido: oPedido
-        }).success(function(result){
-            $s.getPedidos();           
-        });
-
-    }
-
-    $s.getAll = function (){
-        $s.getPedidos();
-    }
-
 }]);
 
+
+app.controller("precosCtrl", ['$scope', '$http', '$rootScope','DateProvider', function ($s, $http, $rs, Date) {
+
+    $(document).ready(function(){
+        $('.collapsible').collapsible({
+          accordion : false
+        });
+    });
+
+
+    $(document).ready(function() {
+        $('select').material_select();
+    });                
+
+
+    var classe = 'Generic';
+
+
+    $s.getPrecos = function(){
+        $s.func = 'getPrecos';
+
+        $http.get(SERVER_PATH + "redirect.php?func=" + $s.func + "&c=" + classe).success(function(result){
+            $s.precos = result;               
+        });
+    };   
+
+
+    $s.updatePreco = function(oPreco){
+        console.log(oPreco);
+        if (!oPreco.preco) { 
+            $s.showToast('Preencha o preço');
+            return; 
+        }
+
+        $s.func = 'updatePreco';
+        $http.post(SERVER_PATH + "redirect.php?func=" + $s.func + "&c=" + classe, {
+            oPreco: oPreco
+        }).success(function(result){
+            $s.getPrecos();
+            $s.showToast("Preço salvo!");
+            // $s.oPedido.descricao = '';
+        });
+    }     
+
+
+}]);
 

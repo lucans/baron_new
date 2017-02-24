@@ -85,6 +85,31 @@
 
 		}
 
+		public function getPrecos(){
+									
+			$sWhere = "";
+			$sTable = "precos";
+
+			$aTipos = $this->getData($sTable, $sWhere, $this->sFields);
+		
+			echo json_encode($aTipos);
+
+		}
+
+
+		public function updatePreco($user, $q, $aDados){
+		
+			$sTable = "precos";
+
+			$sSet = buildSet($aDados);
+
+			$sWhere = "WHERE codpreco = '" . $aDados->oPreco->codpreco . "'";
+			
+			$this->updateData($	sTable, $sWhere, $sSet);
+
+		}
+
+
 
 		public function insertEstoque($user, $q, $aDados){
 

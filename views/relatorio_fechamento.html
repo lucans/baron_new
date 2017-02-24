@@ -35,7 +35,7 @@
             </form>
           </div>
           <div class="card-action">                                                  
-            <button type="submit" class="btn green lighten-1" ng-click="getPedidosByMesAno(oRelatorio)"><i class="fa fa-search"></i></button>               
+            <button type="submit" class="btn green lighten-1" ng-click="getPedidosByMesAno(oRelatorio)"><i class="fa fa-search"></i> Gerar relatório</button>               
           </div>
         </div>
       </div>
@@ -44,7 +44,7 @@
 
 
         <div class="" ng-repeat="fechamento in relatorios">
-          <div class="col s4 m4">
+          <div class="col s12 m4">
             <div class="card">
               <div class="card-content">
                 <span class="card-title">{{fechamento.parte}} parte do mês <span class="badge blue darken-3 white-text">{{fechamento.intervalo}}</span></span>
@@ -66,6 +66,7 @@
                       </tr>
 
                       <tr class="green lighten-4"><td colspan="5">Totais Recebidos</td></tr>
+
                       <tr ng-repeat="total_pago in fechamento.totais_pagos">
                         <td>{{total_pago.tipo}}</td>
                         <td>{{total_pago.total_qtd}} Un.</td>
@@ -82,7 +83,7 @@
                 <div class="card">
                   <div class="card-content">
                     <table class="striped bordered responsive-table">
-                    <tr class="red lighten-4"><td colspan="5">Pedidos Pendentes</td></tr>
+                    <tr class="orange lighten-4"><td colspan="5">Pedidos Pendentes</td></tr>
                       <th>Nome</th>
                       <th>Endereço</th>
                       <th>Tipo</th>
@@ -98,7 +99,7 @@
                         <td>{{pedido.qtd * pedido.preco | currency : "R$ "}}</td>
                       </tr>
 
-                      <tr class="red lighten-4"><td colspan="5">Totais</td></tr>
+                      <tr class="orange lighten-4"><td colspan="5">Totais</td></tr>
                       <tr ng-repeat="total_pago in fechamento.totais_fiado">
                         <td>{{total_pago.tipo}}</td>
                         <td>{{total_pago.total_qtd}} Un.</td>
