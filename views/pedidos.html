@@ -1,0 +1,139 @@
+<div ng-controller="userCtrl">
+  <div class="user" ng-init="getPedidos()">
+  <!-- <div style="height: 100px; width: 70px; border-top-right-radius: 60px; border-top-left-radius: 60px; border-bottom-right-radius: 50px; border-bottom-left-radius: 50px; background-color: red"></div> -->
+    <div class="row">
+
+      <!-- PEDIDOS -->
+      <div class="row col l6 offset-l3 s12">
+
+        <div class="collection blue darken-3 white-text">
+            <li class="collection-header col s10">
+             <h5>
+              {{dia_semana}}
+             </h5>
+           </li>
+        </div>
+
+      <div class="card">
+        <div class="card-content">
+          <div class="row">
+            <form class="col s12">
+              <div class="row">
+
+                <div class="input-field col l12 s12">
+                  <datepicker class="col" date-format="dd/MM/yyyy">
+                    <input value="" ng-model="oPedido.dia"  type="text" placeholder="Data">
+                  </datepicker>
+                </div>  
+                  
+                <div class="input-field col l12 s12">                                
+                    <select class="browser-default col s12" ng-model="oPedido.tipo" ng-init="oPedido.tipo = 'P13'">
+                      <option value="P13">P13</option>
+                      <option value="P20">P20</option>
+                      <option value="P45">P45</option>                      
+                    </select>                  
+                </div>
+
+                <div class="input-field col l1 s12">
+                  <input ng-model="oPedido.qtd" ng-init="oPedido.qtd = 1" type="text"  class="validate" value="1">                  
+                </div>                
+                <div class="input-field col l3 s12">
+                   <input value="" ng-model="oPedido.nome" type="text"  class="validate">
+                  <label for="nome">Nome</label>
+                </div>                
+                <div class="input-field col l4 s12">
+                  <input value="" ng-model="oPedido.endereco" type="text"  class="validate">
+                  <label for="endereco">Endereço</label>
+                </div>               
+                <div class="input-field col l4 s12">
+                  <input value="" ng-model="oPedido.telefone" type="text"  class="validate">
+                  <label for="telefone">Telefone</label>
+                </div>
+
+              </div>
+            </form>
+          </div>
+          <div class="card-action">
+            <button type="submit" class="btn blue darken-3" ng-click="sendPedido(oPedido)"><i class="fa fa-plus"></i></button>
+          </div>
+        </div>
+      </div>
+
+
+        <div class="row" ng-repeat="dia in pedidos">
+          <div class="col s12 m12">
+
+            <div class="card">
+              <div class="card-content">
+                <span class="card-title">{{dia.dia_semana}} <span class="badge blue darken-3 white-text">{{dia.dia | date:"dd/MM/yyyy"}}</span></span>
+          
+                <div class="card blue darken-3" ng-repeat="pedido in dia.pedidos" ng-class="{'green lighten-4' : pedido.entrega == 'entregue' && pedido.pagamento == 'pago', 'orange lighten-4' : pedido.entrega == 'entregue' && pedido.pagamento == 'fiado' }">
+                  <div class="card-content white-text">
+                    <span class="card-title">{{pedido.nome}}</span>       
+                    <p>                                        
+                    {{pedido.qtd}} <i class="fa fa-times"></i> {{pedido.tipo}} | <b>{{pedido.endereco}}</b> | {{pedido.telefone}}</p>  
+                  </div>
+                  <div class="card-action">
+                    <button class="btn grey darken-3 right white-text fa fa-trash" ng-click="deletePedido(pedido)"></button>
+
+                    <button class="btn red white-text" ng-click="changeEntrega(pedido)" ng-show="pedido.entrega == 'pendente'">Pendente</button>
+                    <button class="btn green white-text" ng-click="changeEntrega(pedido)" ng-show="pedido.entrega == 'entregue'">Entregue</button>              
+
+                    <button class="btn green white-text" ng-click="changePagamento(pedido)" ng-show="pedido.pagamento == 'pago' && pedido.entrega == 'entregue'">Pago</button>
+                    <button class="btn orange white-text" ng-click="changePagamento(pedido)" ng-show="pedido.pagamento == 'fiado' && pedido.entrega == 'entregue'">Fiado</button> 
+                  
+                    <a href="" class="white black-text right" ng-show="pedido.pagamento == 'fiado'">
+                        <datepicker class="col s8" date-format="dd/MM/yyyy">                                          
+                          <input value="" ng-change="updatePedido(pedido)" ng-model="pedido.previsao" type="text" placeholder="Data">
+                        </datepicker>
+                    </a> 
+              
+                  </div>
+                </div>
+
+              </div>
+            </div>
+
+          </div>
+        </div>
+
+
+<!-- 
+        <div ng-repeat="dia in pedidos"> 
+            <div class="collection">
+
+              <a href="#!" class="collection-item blue white-text" ng-click="showPedidosDia = !showPedidosDia">{{dia.dia  | date:"dd/MM/yyyy"}} <span class="badge green white-text">{{dia.dia_semana}}</span>
+              <i class="right fa fa-chevron-up"  ng-show="!showPedidosDia"></i>
+              <i class="right fa fa-chevron-down" ng-show="showPedidosDia"></i>
+              </a>
+
+              <a href="#!" ng-repeat="pedido in dia.pedidos" class="collection-item" 
+
+                ng-show="!showPedidosDia" 
+                ng-class="{'green lighten-4' : pedido.entrega == 'entregue' && pedido.pagamento == 'pago', 'orange lighten-4' : pedido.entrega == 'entregue' && pedido.pagamento == 'fiado' }">
+
+                <span class="badge green white-text" ng-bind="pedido.qtd"></span>
+
+                <span class="badge" ng-bind="pedido.nome"></span>
+                <span class="badge" ng-bind="pedido.endereco"></span>
+
+                <span class="badge col s1 grey darken-3 right white-text fa fa-trash" ng-click="deletePedido(pedido)"></span>
+
+
+                <span class="badge col l1 s6 red white-text right" ng-click="changeEntrega(pedido)" ng-show="pedido.entrega == 'pendente'">Pendente</span>
+                <span class="badge col l1 s6 green white-text right" ng-click="changeEntrega(pedido)" ng-show="pedido.entrega == 'entregue'">Entregue</span>              
+
+                <span class="badge col l1 s6 green white-text right" ng-click="changePagamento(pedido)" ng-show="pedido.pagamento == 'pago' && pedido.entrega == 'entregue'">Pago</span>
+                <span class="badge col l1 s6 orange white-text right" ng-click="changePagamento(pedido)" ng-show="pedido.pagamento == 'fiado' && pedido.entrega == 'entregue'">Fiado</span> 
+              
+              </a>
+            </div>
+        </div>
+ -->
+
+      </div>
+
+    </div>
+
+  </div>
+</div>
