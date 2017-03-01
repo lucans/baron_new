@@ -1,11 +1,13 @@
 <?
 if ($_SERVER['DOCUMENT_ROOT'] == 'C:/Users/Lucas/Documents/GitHub') {
-	mysql_connect('192.168.10.20','root','proxy');
+	// mysql_connect('192.168.10.20','root','proxy');
+    $link = mysqli_connect("192.168.10.20","root","proxy","db_baron");
 } else{
-	mysql_connect('localhost','root','');
+    $link = mysqli_connect("localhost","root","","db_baron");
+	// mysql_connect('localhost','root','');
 }
 
-mysql_select_db("db_lucas");
+// mysql_select_db("db_lucas");
 
 include("dao.php");
 

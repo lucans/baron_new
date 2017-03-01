@@ -3,8 +3,12 @@
 
 		private $link;
 
-		public function __construct(){
-			$this->link = mysqli_connect("localhost","root","","db_baron");
+		public function __construct(){	
+			if ($_SERVER['DOCUMENT_ROOT'] == 'C:/Users/Lucas/Documents/GitHub') {	
+			    $this->link = mysqli_connect("192.168.10.20","root","proxy","db_baron");
+			} else{
+			    $this->link = mysqli_connect("localhost","root","","db_baron");	
+			}
 		}
 
 
@@ -16,6 +20,7 @@
 			$sFields = empty($sFields) ? '*' : $sFields;			
 
 			$sQuery = "SELECT $sFields FROM $sTable $sWhere";		
+
 
 			// if ($opt == 'morre') {
 				// die($sQuery);

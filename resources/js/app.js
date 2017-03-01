@@ -284,6 +284,8 @@ app.controller("pedidosCtrl", ['$scope', '$http', '$rootScope','DateProvider', f
             }).success(function(result){
                 $s.clientes = result;               
             });
+        } else {
+            $s.clientes = [];
         }
 
         

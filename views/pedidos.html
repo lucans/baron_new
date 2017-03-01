@@ -4,7 +4,7 @@
     <div class="row">
 
         <!-- PEDIDOS -->  
-        <div class="row col l8 s8">
+        <div class="row col l8 s12 col offset-l2">
 
           <div class="collection blue darken-3 white-text">
               <li class="collection-header col s10">
@@ -60,7 +60,7 @@
           </div>
         </div>
 
-        <div class="collection" ng-show="showClientes">
+        <div class="collection">
           <a href="javascript:void(0)" ng-repeat="cliente in clientes" class="collection-item" 
               ng-click="oPedido.nome = cliente.nome;
                         oPedido.endereco = cliente.endereco; 
@@ -70,8 +70,6 @@
           </a>
         </div>
 
-
-   
 
         <div class="row" ng-repeat="dia in pedidos">
           <div class="col s12 m12">
@@ -95,8 +93,8 @@
                     <button class="btn green white-text" ng-click="changePagamento(pedido)" ng-show="pedido.pagamento == 'pago' && pedido.entrega == 'entregue'">Pago</button>
                     <button class="btn orange white-text" ng-click="changePagamento(pedido)" ng-show="pedido.pagamento == 'fiado' && pedido.entrega == 'entregue'">Fiado</button> 
                   
-                    <a href="" class="white black-text right" ng-show="pedido.pagamento == 'fiado'">
-                        <datepicker class="col s8" date-format="dd/MM/yyyy">                                          
+                    <a href="" class="white black-text col l2 s3 right" ng-show="pedido.pagamento == 'fiado'">
+                        <datepicker class="col s12" date-format="dd/MM/yyyy">                                          
                           <input value="" ng-change="updatePedido(pedido)" ng-model="pedido.previsao" type="text" placeholder="Data">
                         </datepicker>
                     </a> 
