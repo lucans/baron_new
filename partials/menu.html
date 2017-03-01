@@ -1,23 +1,16 @@
-<nav>
-
-  <div class="nav-wrapper blue darken-1" ng-controller="userCtrl">
-    <a href="#" class="brand-logo"></a>
-    <ul id="nav-mobile" class="left hide-on-med-and-down">
-      <li><a href="#/app/Pedidos"><b>Pedidos</b></a></li>
-      <li><a href="#/app/Estoque"><b>Estoque</b></a></li>
-      <li><a href="#/app/RelatorioFechamento"><b>Relatório Mensal</b></a></li>
-      <li class="blue darken-4"><a href="#/app/Precos"><b>Preços</b></a></li>
-    </ul>    
-
-    <ul id="nav-mobile" class="right hide-on-med-and-down">
-      <li ng-click="userLogout(); root.user = {}"><a href="#Login"><i class="fa fa-sign-out"></i></a></li>
-      <li><a href="#Login"><b>{{user.inicial}}</b></a></li>
-
-      <li><a href="#app/Config"><i class="fa fa-user"></i></a></li>
-    </ul>
-
+<nav class="nav-extended blue darken-3" style="margin-bottom: 50px;">
+  <div class="nav-wrapper">
+    <a href="#" class="brand-logo">Baron Gás e Água</a>          
   </div>
-
+  <div class="nav-content">
+    <ul class="tabs tabs-transparent">
+      <li class="tab"><a href="#/app/Pedidos"><b>Pedidos</b></a></li>
+      <li class="tab"><a href="#/app/Estoque"><b>Estoque</b></a></li>
+      <li class="tab"><a href="#/app/RelatorioFechamento"><b>Relatório Mensal</b></a></li>
+      <li class="tab"><a href="#/app/Clientes"><b>Clientes</b></a></li>
+      <li class="tab"><a href="#/app/Precos"><b>Preços</b></a></li>
+    </ul>
+  </div>
 </nav>
 
 <div ui-view></div>

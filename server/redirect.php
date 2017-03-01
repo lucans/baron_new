@@ -36,6 +36,10 @@ switch ($c) {
 	case 'Generic':
 		$Generic = new Generic();
 		$Generic->$func($coduser, $q, $aDados);
+		break;		
+	case 'Cliente':
+		$Cliente = new Cliente();
+		$Cliente->$func($coduser, $q, $aDados);
 		break;	
 	
 	default:

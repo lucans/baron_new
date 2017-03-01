@@ -85,6 +85,20 @@
 
 		}
 
+
+		public function getPreco($tipo, $tipo_preco){
+									
+			$sTable = "precos";
+			$sWhere = " WHERE tipo = '$tipo'";		
+
+			$aTipo = $this->getData($sTable, $sWhere, $this->sFields);
+			
+			// die(print_r($aTipo));
+
+			return $aTipo[0][$tipo_preco];
+		}
+
+
 		public function getPrecos(){
 									
 			$sWhere = "";
@@ -93,7 +107,6 @@
 			$aTipos = $this->getData($sTable, $sWhere, $this->sFields);
 		
 			echo json_encode($aTipos);
-
 		}
 
 
@@ -105,15 +118,16 @@
 
 			$sWhere = "WHERE codpreco = '" . $aDados->oPreco->codpreco . "'";
 			
-			$this->updateData($	sTable, $sWhere, $sSet);
+			$this->updateData($sTable, $sWhere, $sSet);
 
 		}
-
 
 
 		public function insertEstoque($user, $q, $aDados){
 
 			$aDados->oEstoque->dia = implode('-', array_reverse(explode('/', $aDados->oEstoque->dia)));
+
+			$aDados->oEstoque->preco = self::getPreco($aDados->oEstoque->tipo, "preco_custo");
 
 			$sSet = buildSet($aDados);		
 			

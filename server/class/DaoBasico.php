@@ -18,7 +18,7 @@
 			$sQuery = "SELECT $sFields FROM $sTable $sWhere";		
 
 			// if ($opt == 'morre') {
-			// 	die($sQuery);
+				// die($sQuery);
 			// }
 
 			$oStmt = mysqli_query($this->link, $sQuery); 

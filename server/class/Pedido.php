@@ -20,7 +20,7 @@
 							WHEN 'Saturday' THEN 'Sábado' 
 						END AS dia_semana ";			
 		
-			$sWhere = " GROUP BY dia ORDER BY dia DESC";
+			$sWhere = " GROUP BY dia ORDER BY dia DESC LIMIT 30";
 
 			$Dias = $this->getData($this->sTable, $sWhere, $sFields);
 
@@ -65,7 +65,11 @@
 		
 		public function updatePedido($user, $q, $aDados){
 
-			$aDados->oPedido->previsao = implode('-', array_reverse(explode('/', $aDados->oPedido->previsao)));
+			$aDados->oPedido->previsao = implode('-', array_reverse(explode('/', $aDados->oPedido->previsao)));			
+
+			if (isset($aDados->oPedido->previsao)) {
+				$aDados->oPedido->dtpagamento = '0000-00-00';
+			}
 
 			$sSet = buildSet($aDados);
 
@@ -77,7 +81,12 @@
 
 		public function insertPedido($user, $q, $aDados){
 
+			$aDados->oPedido->preco = Generic::getPreco($aDados->oPedido->tipo, "preco_venda");
+
 			$aDados->oPedido->dia = implode('-', array_reverse(explode('/', $aDados->oPedido->dia)));
+
+			$aDados->oPedido->dtcadastro = date("Y-m-d");
+
 			$aDados->oPedido->coduser = $user;
 
 			$sSet = buildSet($aDados);		
@@ -88,7 +97,7 @@
 
 		public function deletePedido($user, $q, $aDados){
 
-			$sWhere = "WHERE codpedido = '" . $aDados->oPedido->codpedido . "' ";
+			$sWhere = "WHERE codpedido = '" . $aDados->oPedido->codpedido . "'";
 
 			$sWhere = "WHERE codpedido = '" . $aDados->oPedido->codpedido . "'";
 			$this->deleteData($this->sTable, $sWhere);			
@@ -98,7 +107,9 @@
 
 		public function changeEntrega($user, $q, $aDados){
 
-			$sSet = " SET entrega = IF(entrega = 'pendente','entregue','pendente') ";
+			$sDataPagamento = $aDados->oPedido->entrega == 'pendente' ? 'CURDATE()' : "'0000-00-00'";
+
+			$sSet = " SET entrega = IF(entrega = 'pendente','entregue','pendente'), dtpagamento = $sDataPagamento ";
 			
 			$sWhere = "WHERE codpedido = '" . $aDados->oPedido->codpedido . "' ";
 			
@@ -108,7 +119,10 @@
 
 		public function changePagamento($user, $q, $aDados){
 
-			$sSet = " SET pagamento = IF(pagamento = 'fiado','pago','fiado') ";
+			$sDataPagamento = $aDados->oPedido->pagamento == 'fiado' ? 'CURDATE()' : "'0000-00-00'";
+
+
+			$sSet = " SET pagamento = IF(pagamento = 'fiado','pago','fiado'), dtpagamento = $sDataPagamento ";
 
 			$sWhere = "WHERE codpedido = '" . $aDados->oPedido->codpedido . "' ";
 			
@@ -132,7 +146,7 @@
 			$sWhere = " WHERE dia BETWEEN '" . $aDados->oRelatorio->ano . "-" . $aDados->oRelatorio->mes . "-01' AND '" . $aDados->oRelatorio->ano . "-" . $aDados->oRelatorio->mes . "-10' AND pagamento = 'pago' ORDER BY dia ASC";
 			$aRelatorio["primeira"]["pedidos_pagos"] = $this->getData($this->sTable, $sWhere, $this->sFields);
 
-			$sWhere = " WHERE previsao BETWEEN '" . $aDados->oRelatorio->ano . "-" . $aDados->oRelatorio->mes . "-01' AND '" . $aDados->oRelatorio->ano . "-" . $aDados->oRelatorio->mes . "-10' AND pagamento = 'fiado' ORDER BY dia ASC";
+			$sWhere = " WHERE dia BETWEEN '" . $aDados->oRelatorio->ano . "-" . $aDados->oRelatorio->mes . "-01' AND '" . $aDados->oRelatorio->ano . "-" . $aDados->oRelatorio->mes . "-10' AND pagamento = 'fiado' ORDER BY dia ASC";
 			$aRelatorio["primeira"]["pedidos_fiado"] = $this->getData($this->sTable, $sWhere, $this->sFields);
 
 
@@ -162,7 +176,7 @@
 			$sWhere = " WHERE dia BETWEEN '" . $aDados->oRelatorio->ano . "-" . $aDados->oRelatorio->mes . "-11' AND '" . $aDados->oRelatorio->ano . "-" . $aDados->oRelatorio->mes . "-20' AND pagamento = 'pago' ORDER BY dia ASC";
 			$aRelatorio["segunda"]["pedidos_pagos"] = $this->getData($this->sTable, $sWhere, $this->sFields);
 
-			$sWhere = " WHERE previsao BETWEEN '" . $aDados->oRelatorio->ano . "-" . $aDados->oRelatorio->mes . "-11' AND '" . $aDados->oRelatorio->ano . "-" . $aDados->oRelatorio->mes . "-20' AND pagamento = 'fiado' ORDER BY dia ASC";
+			$sWhere = " WHERE dia BETWEEN '" . $aDados->oRelatorio->ano . "-" . $aDados->oRelatorio->mes . "-11' AND '" . $aDados->oRelatorio->ano . "-" . $aDados->oRelatorio->mes . "-20' AND pagamento = 'fiado' ORDER BY dia ASC";
 			$aRelatorio["segunda"]["pedidos_fiado"] = $this->getData($this->sTable, $sWhere, $this->sFields);
 
 
@@ -175,7 +189,7 @@
 			$sWhere = " WHERE dia BETWEEN '" . $aDados->oRelatorio->ano . "-" . $aDados->oRelatorio->mes . "-11' AND '" . $aDados->oRelatorio->ano . "-" . $aDados->oRelatorio->mes . "-20' AND pagamento = 'pago' GROUP BY p.tipo";
 			$aRelatorio["segunda"]["totais_pagos"] = $this->getData($sTable, $sWhere, $sFields);
 			
-			$sWhere = " WHERE dia BETWEEN '" . $aDados->oRelatorio->ano . "-" . $aDados->oRelatorio->mes . "-01' AND '" . $aDados->oRelatorio->ano . "-" . $aDados->oRelatorio->mes . "-20' AND pagamento = 'fiado' GROUP BY p.tipo";
+			$sWhere = " WHERE dia BETWEEN '" . $aDados->oRelatorio->ano . "-" . $aDados->oRelatorio->mes . "-11' AND '" . $aDados->oRelatorio->ano . "-" . $aDados->oRelatorio->mes . "-20' AND pagamento = 'fiado' GROUP BY p.tipo";
 			$aRelatorio["segunda"]["totais_fiado"] = $this->getData($sTable, $sWhere, $sFields);
 
 
@@ -189,7 +203,7 @@
 			$sWhere = " WHERE dia BETWEEN '" . $aDados->oRelatorio->ano . "-" . $aDados->oRelatorio->mes . "-21' AND LAST_DAY('" . $aDados->oRelatorio->ano . "-" . $aDados->oRelatorio->mes . "-15') AND pagamento = 'pago' ORDER BY dia ASC";
 			$aRelatorio["terceira"]["pedidos_pagos"] = $this->getData($this->sTable, $sWhere, $this->sFields);
 			
-			$sWhere = " WHERE previsao BETWEEN '" . $aDados->oRelatorio->ano . "-" . $aDados->oRelatorio->mes . "-21' AND LAST_DAY('" . $aDados->oRelatorio->ano . "-" . $aDados->oRelatorio->mes . "-15') AND pagamento = 'fiado' ORDER BY dia ASC";
+			$sWhere = " WHERE dia BETWEEN '" . $aDados->oRelatorio->ano . "-" . $aDados->oRelatorio->mes . "-21' AND LAST_DAY('" . $aDados->oRelatorio->ano . "-" . $aDados->oRelatorio->mes . "-15') AND pagamento = 'fiado' ORDER BY dia ASC";
 			$aRelatorio["terceira"]["pedidos_fiado"] = $this->getData($this->sTable, $sWhere, $this->sFields);
 
 
@@ -203,7 +217,7 @@
 			$aRelatorio["terceira"]["totais_pagos"] = $this->getData($sTable, $sWhere, $sFields);
 			
 			$sWhere = " WHERE dia BETWEEN '" . $aDados->oRelatorio->ano . "-" . $aDados->oRelatorio->mes . "-21' AND LAST_DAY('" . $aDados->oRelatorio->ano . "-" . $aDados->oRelatorio->mes . "-15') AND pagamento = 'fiado' GROUP BY p.tipo";
-			$aRelatorio["segunda"]["totais_fiado"] = $this->getData($sTable, $sWhere, $sFields);
+			$aRelatorio["terceira"]["totais_fiado"] = $this->getData($sTable, $sWhere, $sFields);
 	
 
 			echo json_encode($aRelatorio);

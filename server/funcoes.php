@@ -7,6 +7,7 @@ include('class/DaoBasico.php');
 require_once('class/Pedido.php');
 require_once('class/Usuario.php');
 require_once('class/Generic.php');
+require_once('class/Cliente.php');
 
 session_start();
 

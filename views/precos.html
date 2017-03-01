@@ -13,37 +13,47 @@
            </li>
         </div>           
 
+
         <div class="card">
           <div class="card-content">
             <div class="row">                  
              <form class="col s12">
-              <div class="row" ng-repeat="oPreco in precos">                                   
 
-                  <div class="input-field col l2 s2" ng-hide="true">                                
-                    <label ng-bind="oPreco.codpreco"></label>
-                  </div>  
-
-                  <div class="input-field col l2 s2">                                
-                    <label ng-bind="oPreco.tipo"></label>
-                  </div>  
-
+             <table class="striped bordered responsive-table">
+                <tr>
+                  <th>Tipo</th>
+                  <th>Preço (Custo)</th>
+                  <th>Preço (Venda)</th>
+                  <th>Margem (%)</th>
+                  <th></th>
+                </tr>
+               <tr ng-repeat="oPreco in precos">
+                 <td ng-bind="oPreco.tipo"></td>
+                 <td>                   
                   <div class="input-field col l6 s6">      
-                    <input ng-model="oPreco.preco" type="text">
-                    <!-- <label for="preco">Preço</label> -->
-                  </div>                
-
-                  <div class="input-field col l4 s4">                                
-                    <button type="submit" class="btn blue darken-4" ng-click="updatePreco(oPreco)"><i class="fa fa-money"></i> Salvar preço</button>       
+                    <input ng-model="oPreco.preco_custo" type="text">                   
                   </div>  
+                 </td>   
+                 <td>                   
+                  <div class="input-field col l6 s6">      
+                    <input ng-model="oPreco.preco_venda" type="text">                   
+                  </div>  
+                 </td>                  
+                 <td>{{oPreco.preco_venda - oPreco.preco_custo | currency : "R$ "}}</td>  
+                 <td>                                                               
+                    <button type="submit" class="btn blue darken-4" ng-click="updatePreco(oPreco)">Salvar</button>                
+                 </td>
+               </tr>
+             </table>
 
-              </div>
-            </form>
-          </div>        
-        </div>
+            </div> 
+          </form>
+        </div>        
       </div>
-
-      </div> 
     </div>
 
+    </div> 
   </div>
+
+</div>
 </div>

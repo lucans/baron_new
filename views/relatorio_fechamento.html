@@ -50,7 +50,7 @@
                 <span class="card-title">{{fechamento.parte}} parte do mês <span class="badge blue darken-3 white-text">{{fechamento.intervalo}}</span></span>
           
                     <table class="striped bordered responsive-table">
-                      <tr class="green lighten-4"><td colspan="5">Pedidos Recebidos</td></tr>
+                      <tr class="green lighten-4"><td colspan="5">Pedidos Vendidos e Recebidos</td></tr>
                       <th>Nome</th>
                       <th>Endereço</th>
                       <th>Tipo</th>
@@ -58,14 +58,14 @@
                       <th>Total</th>
 
                       <tr ng-repeat="pedido in fechamento.pedidos_pagos">
-                        <td ng-bind="pedido.nome"></td>
+                        <td>{{pedido.nome}} - {{pedido.codpedido}}</td>
                         <td ng-bind="pedido.endereco"></td>
                         <td ng-bind="pedido.tipo"></td>
                         <td ng-bind="pedido.qtd"></td>
                         <td>{{pedido.qtd * pedido.preco | currency : "R$ "}}</td>
                       </tr>
 
-                      <tr class="green lighten-4"><td colspan="5">Totais Recebidos</td></tr>
+                      <tr class="green lighten-4"><td colspan="5">Totais</td></tr>
 
                       <tr ng-repeat="total_pago in fechamento.totais_pagos">
                         <td>{{total_pago.tipo}}</td>
@@ -80,10 +80,11 @@
                   </div>                  
                 </div>                  
 
+
                 <div class="card">
                   <div class="card-content">
                     <table class="striped bordered responsive-table">
-                    <tr class="orange lighten-4"><td colspan="5">Pedidos Pendentes</td></tr>
+                    <tr class="orange lighten-4"><td colspan="5">Pedidos com recebimento Pendente</td></tr>
                       <th>Nome</th>
                       <th>Endereço</th>
                       <th>Tipo</th>
@@ -92,49 +93,27 @@
 
 
                       <tr ng-repeat="pedido in fechamento.pedidos_fiado">
-                        <td ng-bind="pedido.nome"></td>
+                        <td>{{pedido.nome}} - {{pedido.codpedido}}</td>
                         <td ng-bind="pedido.endereco"></td>
                         <td ng-bind="pedido.tipo"></td>
                         <td ng-bind="pedido.qtd"></td>
                         <td>{{pedido.qtd * pedido.preco | currency : "R$ "}}</td>
                       </tr>
 
-                      <tr class="orange lighten-4"><td colspan="5">Totais</td></tr>
-                      <tr ng-repeat="total_pago in fechamento.totais_fiado">
-                        <td>{{total_pago.tipo}}</td>
-                        <td>{{total_pago.total_qtd}} Un.</td>
-                        <td>{{total_pago.preco | currency : "R$ "}}</td>
-                        <td></td>
-                        <td>{{total_pago.total_valor | currency : "R$ "}}</td>                                    
-                      </tr>
-                   
-
+                                              
+                        <tr class="orange lighten-4"><td colspan="5">Totais</td></tr>
+                        <tr ng-repeat="total_pago in fechamento.totais_fiado">
+                          <td>{{total_pago.tipo}}</td>
+                          <td>{{total_pago.total_qtd}} Un.</td>
+                          <td>{{total_pago.preco | currency : "R$ "}}</td>
+                          <td></td>
+                          <td>{{total_pago.total_valor | currency : "R$ "}}</td>                                    
+                        </tr>
                     </table>
-
-<!-- 
-                  <div class="card green lighten-4" ng-repeat="pedido in fechamento.pedidos_pagos">
-                    <div class="card-content">                    
-                      <p>                                                      
-                        <button class="btn grey darken-3 white-text" ng-bind="pedido.nome"></button>
-                        <button class="btn grey darken-3 white-text" ng-bind="pedido.endereco"></button>
-                        <button class="btn grey darken-3 white-text" ng-bind="pedido.qtd"></button>
-                        <button class="btn grey darken-3 white-text" ng-bind="pedido.tipo"></button>                        
-                      </p>                                        
-                    </div>
-                  </div>
-
-                  <div class="card red lighten-4" ng-repeat="pedido in fechamento.pedidos_fiado">
-                    <div class="card-content">                     
-                      <p>                                                      
-                        <button class="btn grey darken-3 white-text" ng-bind="pedido.nome"></button>
-                        <button class="btn grey darken-3 white-text" ng-bind="pedido.endereco"></button>
-                        <button class="btn grey darken-3 white-text" ng-bind="pedido.qtd"></button>
-                        <button class="btn grey darken-3 white-text" ng-bind="pedido.tipo"></button>                        
-                      </p>                                        
-                    </div>
-                  </div>
- -->
+                  </div>              
               </div>
+
+
             </div>
           </div>
         </div>

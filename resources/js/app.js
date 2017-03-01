@@ -158,10 +158,12 @@ app.controller("userCtrl", ['$scope', '$http', '$rootScope','$location', functio
         $http.post("server/dao/redirect.php?p=" + $s.p).success($s.goRota('/Login')); 
     }
 
+
 }]);
 
 
 app.controller("pedidosCtrl", ['$scope', '$http', '$rootScope','DateProvider', function ($s, $http, $rs, Date) {
+
 
     $(document).ready(function(){
         $('.collapsible').collapsible({
@@ -180,11 +182,6 @@ app.controller("pedidosCtrl", ['$scope', '$http', '$rootScope','DateProvider', f
 
     var classe = 'Pedido';
 
-
-    $s.printTipo = function(pedido){
-        console.log(pedido);
-    }
-        
     $s.paciencia = 2; 
     $s.showToast = function(message){  
         if ($s.paciencia <= 0) { message = message + ', mermão!!!!'; }
@@ -274,6 +271,24 @@ app.controller("pedidosCtrl", ['$scope', '$http', '$rootScope','DateProvider', f
 
     }
 
+    $s.getClientes = function(oPedido){
+        console.log(oPedido);
+
+        var classe = 'Cliente';
+
+        if (oPedido.nome.length >= 3) {        
+            $s.showClientes = true;    
+            $s.func = 'getClientes';
+            $http.post(SERVER_PATH + "redirect.php?func=" + $s.func + "&c=" + classe, {
+                oPedido: oPedido
+            }).success(function(result){
+                $s.clientes = result;               
+            });
+        }
+
+        
+    } 
+
 }]);
 
 app.controller("estoqueCtrl", ['$scope', '$http', '$rootScope','DateProvider', function ($s, $http, $rs, Date) {
@@ -330,6 +345,7 @@ app.controller("estoqueCtrl", ['$scope', '$http', '$rootScope','DateProvider', f
             oEstoque: oEstoque
         }).success(function(result){
             $s.getEstoques();     
+            $s.getEstoquesByTipo();
             $s.showToast("Entrada salva!"); 
         });
     }     
@@ -342,7 +358,8 @@ app.controller("estoqueCtrl", ['$scope', '$http', '$rootScope','DateProvider', f
         $http.post(SERVER_PATH + "redirect.php?func=" + $s.func + "&c=" + classe, {
             oEstoque: oEstoque
         }).success(function(result){
-            $s.getEstoques();           
+            $s.getEstoques();       
+            $s.getEstoquesByTipo();    
         });
 
     }       
@@ -450,8 +467,8 @@ app.controller("precosCtrl", ['$scope', '$http', '$rootScope','DateProvider', fu
 
     $s.updatePreco = function(oPreco){
         console.log(oPreco);
-        if (!oPreco.preco) { 
-            $s.showToast('Preencha o preço');
+        if (!oPreco.preco_custo || !oPreco.preco_venda) { 
+            $s.showToast('Preencha os preços');
             return; 
         }
 
@@ -467,4 +484,3 @@ app.controller("precosCtrl", ['$scope', '$http', '$rootScope','DateProvider', fu
 
 
 }]);
-

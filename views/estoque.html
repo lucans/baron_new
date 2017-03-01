@@ -2,10 +2,19 @@
   <div ng-init="getEstoques()">
     <div class="row">
 
+
       <div class="row col l6 offset-l3 s12" ng-init="getEstoquesByTipo()">
 
+       <div class="collection yellow darken-4 white-text">
+            <li class="collection-header">
+             <h5 >
+              Estoque
+             </h5>
+           </li>  
+        </div>
+        
         <div class="row col s4" ng-repeat="tipo in estoques_tipos">
-          <div class="card red lighten-1 white-text">
+          <div class="card yellow darken-4 white-text">
               <div class="card-content">
                 <h5>{{tipo.tipo}} <small>x</small> {{tipo.total}}</h5>
             </div>
@@ -17,14 +26,7 @@
       <!-- ESTOQUES LOG -->
       <div class="row col l6 offset-l3 s12">
 
-        <div class="collection red lighten-1 white-text">
-            <li class="collection-header">
-             <h5 >
-              Estoque
-             </h5>
-           </li>  
-        </div>
-
+    
           <div class="card">
             <div class="card-content">
               <div class="row">                  
@@ -55,7 +57,7 @@
               </form>
             </div>
             <div class="card-action">                                                  
-              <button type="submit" class="btn red lighten-1" ng-click="sendEstoque(oEstoque)"><i class="fa fa-plus"></i></button>               
+              <button type="submit" class="btn yellow darken-4" ng-click="sendEstoque(oEstoque)"><i class="fa fa-plus"></i></button>               
             </div>
           </div>
         </div>
@@ -71,8 +73,9 @@
                   <div class="card-content">
                     <span class="card-title">{{pedido.nome}} Entrada</span>       
                     <p>                                                      
-                      <button class="btn grey darken-3 white-text">{{estoque.qtd}} Unidades</button>
                       <button class="btn grey darken-3 white-text" ng-bind="estoque.tipo"></button>
+                      <button class="btn grey darken-3 white-text">{{estoque.qtd}} Unidades</button>
+                      <button class="btn grey darken-3 white-text">{{estoque.qtd * estoque.preco | currency : "R$ "}}</button>
                       <button class="btn grey darken-3 white-text" ng-bind="estoque.obs"></button>
                       <button class="btn red darken-3 white-text right fa fa-trash" ng-click="deleteEstoque(estoque)"></button>
                     </p>                                        
