@@ -25,7 +25,12 @@ var app = angular.module('baron', ['ui.router','ngMask','720kb.datepicker','ngSa
           url: "/RelatorioFechamento",
           templateUrl: "views/relatorio_fechamento.html",
           controller: "relatorioCtrl"
-        })          
+        }) 
+        .state('menu.clientes', {
+          url: "/Clientes",
+          templateUrl: "views/clientes.html",
+          controller: "clientesCtrl"
+        })            
         .state('menu.precos', {
           url: "/Precos",
           templateUrl: "views/precos.html",
@@ -54,22 +59,6 @@ var app = angular.module('baron', ['ui.router','ngMask','720kb.datepicker','ngSa
     this.getAno = function () {
         return this.date.getFullYear();
     }
-
- // this.getMes = function () {
-    //     var month = this.date.getMonth()+1;
-    //     // console.log(month);
-      
-    //     switch(month){
-    //         case 1:
-    //             return "Janeiro";
-    //             break;         
-    //         case 2:
-    //             return "Fevereiro";
-    //             break;         
-    //         default:         
-    //             return 'Hoje';
-    //     }
-    // }
    
     this.dayOfWeek = function () {
         var weekDay = this.date.getDay();   
@@ -219,7 +208,6 @@ app.controller("pedidosCtrl", ['$scope', '$http', '$rootScope','DateProvider', f
         }).success(function(result){
             $s.getPedidos();
             $s.showToast("Pedido salvo!");
-            // $s.oPedido.descricao = '';
         });
     }     
 
@@ -271,14 +259,14 @@ app.controller("pedidosCtrl", ['$scope', '$http', '$rootScope','DateProvider', f
 
     }
 
-    $s.getClientes = function(oPedido){
+    $s.getClientesByString = function(oPedido){
         console.log(oPedido);
 
         var classe = 'Cliente';
 
         if (oPedido.nome.length >= 3) {        
             $s.showClientes = true;    
-            $s.func = 'getClientes';
+            $s.func = 'getClientesByString';
             $http.post(SERVER_PATH + "redirect.php?func=" + $s.func + "&c=" + classe, {
                 oPedido: oPedido
             }).success(function(result){
@@ -375,12 +363,10 @@ app.controller("estoqueCtrl", ['$scope', '$http', '$rootScope','DateProvider', f
         });
     };     
 
-
 }]);
 
 app.controller("relatorioCtrl", ['$scope', '$http', '$rootScope','DateProvider', function ($s, $http, $rs, Date) {
 
-    
     $(document).ready(function(){
         $('.collapsible').collapsible({
           accordion : false
@@ -480,9 +466,59 @@ app.controller("precosCtrl", ['$scope', '$http', '$rootScope','DateProvider', fu
         }).success(function(result){
             $s.getPrecos();
             $s.showToast("Preço salvo!");
-            // $s.oPedido.descricao = '';
         });
     }     
 
+}]);
+
+app.controller("clientesCtrl", ['$scope', '$http', '$rootScope','DateProvider', function ($s, $http, $rs, Date) {
+
+    $(document).ready(function(){
+        $('.collapsible').collapsible({
+          accordion : false
+        });
+    });
+             
+
+    var classe = 'Cliente';
+
+
+    $s.getClientes = function(){
+        $s.func = 'getClientes';
+
+        $http.get(SERVER_PATH + "redirect.php?func=" + $s.func + "&c=" + classe).success(function(result){
+            $s.clientes = result;               
+        });
+    };   
+
+
+    $s.deleteCliente = function(oCliente){
+
+        $s.func = 'deleteCliente';
+
+        $http.post(SERVER_PATH + "redirect.php?func=" + $s.func + "&c=" + classe, {
+            oCliente: oCliente
+        }).success(function(result){
+            $s.getClientes();           
+        });
+
+    }   
+
+
+    $s.updatePreco = function(oPreco){
+        console.log(oPreco);
+        if (!oPreco.preco_custo || !oPreco.preco_venda) { 
+            $s.showToast('Preencha os preços');
+            return; 
+        }
+
+        $s.func = 'updatePreco';
+        $http.post(SERVER_PATH + "redirect.php?func=" + $s.func + "&c=" + classe, {
+            oPreco: oPreco
+        }).success(function(result){
+            $s.getPrecos();
+            $s.showToast("Preço salvo!");
+        });
+    }     
 
 }]);

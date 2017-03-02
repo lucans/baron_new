@@ -46,8 +46,6 @@
 		public function insertData($sTable, $sSet){
 
 			$sQuery = "INSERT INTO $sTable $sSet";
-			
-			// die($sQuery);
 
 			mysqli_query($this->link, $sQuery); 
 			unset($sWhere);
@@ -68,8 +66,11 @@
 
 		public function deleteData($sTable, $sWhere){
 
-			// $sQuery = "UPDATE $sTable SET ativo = IF(ativo = 'S', 'N', 'S') $sWhere";
-			$sQuery = "DELETE FROM $sTable $sWhere";
+			if ($sTable == 'clientes') {
+				$sQuery = "UPDATE $sTable SET ativo = IF(ativo = 'S', 'N', 'S') $sWhere";
+			} else {
+				$sQuery = "DELETE FROM $sTable $sWhere";			
+			}
 
 			mysqli_query($this->link, $sQuery); 
 

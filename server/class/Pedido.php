@@ -80,6 +80,14 @@
 		}	
 
 		public function insertPedido($user, $q, $aDados){
+		
+			if (isset($aDados->oPedido->codcliente)) {
+				Cliente::updateCliente("1", "", $aDados);
+			} else {
+				Cliente::insertCliente("1", "", $aDados);				
+			}
+
+			Generic::getPreco($aDados->oPedido->tipo, "preco_venda");
 
 			$aDados->oPedido->preco = Generic::getPreco($aDados->oPedido->tipo, "preco_venda");
 

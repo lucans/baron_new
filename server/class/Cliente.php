@@ -8,11 +8,24 @@
 
 
 		public function getClientes($user, $q, $aDados){
-		
-			$sWhere = " WHERE CONCAT(nome, endereco, telefone) LIKE '%" . $aDados->oPedido->nome . "%' LIMIT 3";
+			
+			$sFields = " *, DATEDIFF(CURDATE(), ultima_compra) AS ultima_compra_dias ";
 
-			$aClientes = $this->getData($this->sTable, $sWhere, $this->sFields);
+			$sWhere = "WHERE ativo = 'S' ORDER BY ultima_compra_dias DESC";
+
+			$aClientes = $this->getData($this->sTable, $sWhere, $sFields);
+	
+			echo json_encode($aClientes);
+
+		}
+
+
+		public function getClientesByString($user, $q, $aDados){
 		
+			$sWhere = " WHERE CONCAT(nome, endereco, telefone) LIKE '%" . $aDados->oPedido->nome . "%' AND ativo = 'S' LIMIT 3";
+
+			$aClientes = $this->getData($this->sTable, $sWhere, $this->sFields);					
+
 			echo json_encode($aClientes);
 
 		}
@@ -26,43 +39,39 @@
 
 		}
 		
-		public function updatePedido($user, $q, $aDados){
+		public function updateCliente($user, $q, $aDados){
 
-			$aDados->oPedido->previsao = implode('-', array_reverse(explode('/', $aDados->oPedido->previsao)));			
+			$sTable = "clientes";
 
-			if (isset($aDados->oPedido->previsao)) {
-				$aDados->oPedido->dtpagamento = '0000-00-00';
-			}
+			$ultima_compra = implode('-', array_reverse(explode('/', $aDados->oPedido->dia)));
 
-			$sSet = buildSet($aDados);
+			$sSet = "SET ultima_compra = '$ultima_compra'";	
 
-			$sWhere = "WHERE codpedido = '" . $aDados->oPedido->codpedido . "' AND coduser = '$user' ";
+			$sWhere = "WHERE codcliente = '" . $aDados->oPedido->codcliente . "'";
 			
-			$this->updateData($this->sTable, $sWhere, $sSet);
+			$this->updateData($sTable, $sWhere, $sSet);
 
 		}	
 
-		public function insertPedido($user, $q, $aDados){
-
-			$aDados->oPedido->preco = Generic::getPreco($aDados->oPedido->tipo, "preco_venda");
-
-			$aDados->oPedido->dia = implode('-', array_reverse(explode('/', $aDados->oPedido->dia)));
-
-			$aDados->oPedido->dtcadastro = date("Y-m-d");
-
-			$aDados->oPedido->coduser = $user;
-
-			$sSet = buildSet($aDados);		
+		public function insertCliente($user, $q, $aDados){
 			
-			$this->insertData($this->sTable, $sSet);
+			$sTable = "clientes";
+
+			$ultima_compra = implode('-', array_reverse(explode('/', $aDados->oPedido->dia)));
+
+			$sSet = "SET nome = '" . $aDados->oPedido->nome . "',
+					 	 endereco = '" . $aDados->oPedido->endereco . "',
+					 	 telefone = '" . $aDados->oPedido->telefone . "',
+					 	 ultima_compra = '$ultima_compra'";	
+			
+			$this->insertData($sTable, $sSet);
 
 		}	
 
-		public function deletePedido($user, $q, $aDados){
 
-			$sWhere = "WHERE codpedido = '" . $aDados->oPedido->codpedido . "'";
+		public function deleteCliente($user, $q, $aDados){
+			$sWhere = "WHERE codcliente = '" . $aDados->oCliente->codcliente . "'";
 
-			$sWhere = "WHERE codpedido = '" . $aDados->oPedido->codpedido . "'";
 			$this->deleteData($this->sTable, $sWhere);			
 			echo json_encode(array('msg' => 'true'));
 		

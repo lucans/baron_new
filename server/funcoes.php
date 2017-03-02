@@ -19,6 +19,10 @@ function toHtmlFormat ($data) 	{
 	return implode('/', array_reverse(explode('-', $data)));
 }
 
+function toSQLFormat ($data) 	{
+	return implode('-', array_reverse(explode('/', $data)));
+}
+
 function buildSet ($aDados) {
 
 	$sSet = 'SET ';

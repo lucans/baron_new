@@ -1,0 +1,56 @@
+<div ng-controller="userCtrl">
+  <div class="user" ng-init="getClientes()">
+
+    <div class="row">
+
+        <!-- CLIENTES -->  
+        <div class="row col l8 s12 col offset-l2">
+
+          <div class="collection red white-text">
+              <li class="collection-header col s10">
+               <h5>
+                Clientes
+               </h5>
+             </li>
+          </div>
+
+        <div class="card">
+          <div class="card-content">
+              <div class="row">                  
+               <form class="col s12">
+                <div class="row">                  
+                    <div class="input-field col l12 s12">                                        
+                      <input ng-model="pesquisaCliente" type="text" placeholder="Pesquise o cliente aqui">
+                    </div>                      
+                </div>
+              </form>
+            </div>   
+          </div>
+        </div>
+
+
+        <table class="striped bordered responsive-table">
+          <th>Nome</th>
+          <th>Endereço</th>
+          <th>Tel.</th>
+          <th>Última Compra (Dias)</th>
+          <th></th>
+
+          <tr ng-repeat="oCliente in clientes | filter: pesquisaCliente"
+              ng-class="{'green lighten-3' : oCliente.ultima_compra_dias <= 5,
+                'orange lighten-3' : oCliente.ultima_compra_dias > 5 && oCliente.ultima_compra_dias <= 45,
+                'red lighten-3' : oCliente.ultima_compra_dias > 45}">
+
+            <td><b>{{oCliente.nome}} </b></td>
+            <td><b>{{oCliente.endereco}} </b></td>
+            <td><b>{{oCliente.telefone}} </b></td>
+            <td><b>{{oCliente.ultima_compra_dias}} dias atrás. </b></td>
+            <td><button class="btn red white-text badge fa fa-times right" ng-click="deleteCliente(oCliente)"></button></td>
+          </tr>
+        </table>
+
+        </div>
+    </div>
+
+  </div>
+</div>

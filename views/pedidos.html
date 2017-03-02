@@ -39,15 +39,16 @@
                     <input ng-model="oPedido.qtd" ng-init="oPedido.qtd = 1" type="number"  class="validate" value="1">                  
                   </div>                
                   <div class="input-field col l3 s12">
-                     <input value="" ng-model="oPedido.nome" type="text" class="validate" ng-change="getClientes(oPedido)" placeholder="Nome">
+                     <input value="" ng-model="oPedido.codcliente" type="text" ng-hide="true">
+                     <input value="" ng-model="oPedido.nome" type="text" class="validate" ng-change="getClientesByString(oPedido)" placeholder="Nome">
                     <!-- <label for="nome">Nome</label> -->
                   </div>                
                   <div class="input-field col l4 s12">
-                    <input value="" ng-model="oPedido.endereco" type="text"  class="validate" ng-change="getClientes(oPedido)" placeholder="Endereço">
+                    <input value="" ng-model="oPedido.endereco" type="text"  class="validate" ng-change="getClientesByString(oPedido)" placeholder="Endereço">
                     <!-- <label for="endereco">Endereço</label> -->
                   </div>               
                   <div class="input-field col l4 s12">
-                    <input value="" ng-model="oPedido.telefone" type="text"  class="validate" ng-change="getClientes(oPedido)" placeholder="Telefone">
+                    <input value="" ng-model="oPedido.telefone" type="text"  class="validate" ng-change="getClientesByString(oPedido)" placeholder="Telefone">
                     <!-- <label for="telefone">Telefone</label> -->
                   </div>
 
@@ -64,6 +65,7 @@
           <a href="javascript:void(0)" ng-repeat="cliente in clientes" class="collection-item" 
               ng-click="oPedido.nome = cliente.nome;
                         oPedido.endereco = cliente.endereco; 
+                        oPedido.codcliente = cliente.codcliente; 
                         oPedido.telefone = cliente.telefone">{{cliente.endereco}}
             <span style="font-size: 16px;" class="blue new badge left" data-badge-caption="">{{cliente.nome}}</span>       
             <span style="font-size: 16px;" class="blue new badge right" data-badge-caption="">{{cliente.telefone}}</span>       
