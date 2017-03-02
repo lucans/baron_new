@@ -66,6 +66,9 @@
 			
 			$this->insertData($sTable, $sSet);
 
+			$iCodCliente = $this->getData($sTable, "", "nome, MAX(codcliente) as codcliente");
+
+			return $iCodCliente[0]["codcliente"];
 		}	
 
 

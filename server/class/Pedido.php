@@ -9,7 +9,6 @@
 
 		public function getPedidos($user){
 
-
 			$sFields = " dia, CASE DAYNAME(dia)
 							WHEN 'Sunday' THEN 'Domingo'
 							WHEN 'Monday' THEN 'Segunda-Feira'
@@ -40,9 +39,11 @@
 
 		public function getPedidosByDia($dia){
 
+			$sTable = " pedidos p INNER JOIN clientes c ON p.codcliente = c.codcliente";
+
 			$sWhere = " WHERE dia = '$dia' ";
 
-			$aPedidos = $this->getData($this->sTable, $sWhere, $this->sFields);
+			$aPedidos = $this->getData($sTable, $sWhere, $this->sFields);
 
 			foreach ($aPedidos as $key => $pedido) {				
 				$aPedidos[$key]['previsao'] = toHtmlFormat($pedido['previsao']);					
@@ -84,7 +85,7 @@
 			if (isset($aDados->oPedido->codcliente)) {
 				Cliente::updateCliente("1", "", $aDados);
 			} else {
-				Cliente::insertCliente("1", "", $aDados);				
+				$aDados->oPedido->codcliente = Cliente::insertCliente("1", "", $aDados);				
 			}
 
 			Generic::getPreco($aDados->oPedido->tipo, "preco_venda");
@@ -93,7 +94,7 @@
 
 			$aDados->oPedido->dia = implode('-', array_reverse(explode('/', $aDados->oPedido->dia)));
 
-			$aDados->oPedido->dtcadastro = date("Y-m-d");
+			$aDados->oPedido->dtcadastro = date("Y-m-d H:i:s");
 
 			$aDados->oPedido->coduser = $user;
 
@@ -151,17 +152,21 @@
 
 
 			// Pedidos
+			$sTable = "pedidos p INNER JOIN clientes c ON p.codcliente = c.codcliente";
+			$sFields = "*, c.nome, c.endereco, c.telefone";
+
 			$sWhere = " WHERE dia BETWEEN '" . $aDados->oRelatorio->ano . "-" . $aDados->oRelatorio->mes . "-01' AND '" . $aDados->oRelatorio->ano . "-" . $aDados->oRelatorio->mes . "-10' AND pagamento = 'pago' ORDER BY dia ASC";
-			$aRelatorio["primeira"]["pedidos_pagos"] = $this->getData($this->sTable, $sWhere, $this->sFields);
+			$aRelatorio["primeira"]["pedidos_pagos"] = $this->getData($sTable, $sWhere, $sFields);
 
 			$sWhere = " WHERE dia BETWEEN '" . $aDados->oRelatorio->ano . "-" . $aDados->oRelatorio->mes . "-01' AND '" . $aDados->oRelatorio->ano . "-" . $aDados->oRelatorio->mes . "-10' AND pagamento = 'fiado' ORDER BY dia ASC";
-			$aRelatorio["primeira"]["pedidos_fiado"] = $this->getData($this->sTable, $sWhere, $this->sFields);
+			$aRelatorio["primeira"]["pedidos_fiado"] = $this->getData($sTable, $sWhere, $sFields);
 
 
 			// Totais
 			$sTable = "pedidos p 
 						INNER JOIN precos pr
-						ON pr.tipo = p.tipo";
+						ON pr.tipo = p.tipo
+						";
 
 			$sFields = "p.tipo, p.preco, SUM(p.qtd) AS total_qtd, SUM(p.qtd * p.preco) AS total_valor";
 			$sWhere = " WHERE dia BETWEEN '" . $aDados->oRelatorio->ano . "-" . $aDados->oRelatorio->mes . "-01' AND '" . $aDados->oRelatorio->ano . "-" . $aDados->oRelatorio->mes . "-10' AND pagamento = 'pago' GROUP BY p.tipo";
@@ -181,17 +186,20 @@
 			$aRelatorio["segunda"]["intervalo"] = "11 a 20";
 
 			// Pedidos
+			$sTable = "pedidos p INNER JOIN clientes c ON p.codcliente = c.codcliente";
+			$sFields = " *, c.nome, c.endereco, c.telefone";
 			$sWhere = " WHERE dia BETWEEN '" . $aDados->oRelatorio->ano . "-" . $aDados->oRelatorio->mes . "-11' AND '" . $aDados->oRelatorio->ano . "-" . $aDados->oRelatorio->mes . "-20' AND pagamento = 'pago' ORDER BY dia ASC";
-			$aRelatorio["segunda"]["pedidos_pagos"] = $this->getData($this->sTable, $sWhere, $this->sFields);
+			$aRelatorio["segunda"]["pedidos_pagos"] = $this->getData($sTable, $sWhere, $sFields);
 
 			$sWhere = " WHERE dia BETWEEN '" . $aDados->oRelatorio->ano . "-" . $aDados->oRelatorio->mes . "-11' AND '" . $aDados->oRelatorio->ano . "-" . $aDados->oRelatorio->mes . "-20' AND pagamento = 'fiado' ORDER BY dia ASC";
-			$aRelatorio["segunda"]["pedidos_fiado"] = $this->getData($this->sTable, $sWhere, $this->sFields);
+			$aRelatorio["segunda"]["pedidos_fiado"] = $this->getData($sTable, $sWhere, $sFields);
 
 
 			// Totais
 			$sTable = "pedidos p 
 						INNER JOIN precos pr
-						ON pr.tipo = p.tipo";
+						ON pr.tipo = p.tipo
+						";
 
 			$sFields = "p.tipo, p.preco, SUM(p.qtd) AS total_qtd, SUM(p.qtd * p.preco) AS total_valor";
 			$sWhere = " WHERE dia BETWEEN '" . $aDados->oRelatorio->ano . "-" . $aDados->oRelatorio->mes . "-11' AND '" . $aDados->oRelatorio->ano . "-" . $aDados->oRelatorio->mes . "-20' AND pagamento = 'pago' GROUP BY p.tipo";
@@ -208,17 +216,20 @@
 			$aRelatorio["terceira"]["intervalo"] = "21 ao fim";
 
 			// Pedidos
+			$sTable = "pedidos p INNER JOIN clientes c ON p.codcliente = c.codcliente";
+			$sFields = " *, c.nome, c.endereco, c.telefone";
 			$sWhere = " WHERE dia BETWEEN '" . $aDados->oRelatorio->ano . "-" . $aDados->oRelatorio->mes . "-21' AND LAST_DAY('" . $aDados->oRelatorio->ano . "-" . $aDados->oRelatorio->mes . "-15') AND pagamento = 'pago' ORDER BY dia ASC";
-			$aRelatorio["terceira"]["pedidos_pagos"] = $this->getData($this->sTable, $sWhere, $this->sFields);
+			$aRelatorio["terceira"]["pedidos_pagos"] = $this->getData($sTable, $sWhere, $sFields);
 			
 			$sWhere = " WHERE dia BETWEEN '" . $aDados->oRelatorio->ano . "-" . $aDados->oRelatorio->mes . "-21' AND LAST_DAY('" . $aDados->oRelatorio->ano . "-" . $aDados->oRelatorio->mes . "-15') AND pagamento = 'fiado' ORDER BY dia ASC";
-			$aRelatorio["terceira"]["pedidos_fiado"] = $this->getData($this->sTable, $sWhere, $this->sFields);
+			$aRelatorio["terceira"]["pedidos_fiado"] = $this->getData($sTable, $sWhere, $sFields);
 
 
 			// Totais
 			$sTable = "pedidos p 
 						INNER JOIN precos pr
-						ON pr.tipo = p.tipo";
+						ON pr.tipo = p.tipo
+						";
 
 			$sFields = "p.tipo, p.preco, SUM(p.qtd) AS total_qtd, SUM(p.qtd * p.preco) AS total_valor";
 			$sWhere = " WHERE dia BETWEEN '" . $aDados->oRelatorio->ano . "-" . $aDados->oRelatorio->mes . "-21' AND LAST_DAY('" . $aDados->oRelatorio->ano . "-" . $aDados->oRelatorio->mes . "-15') AND pagamento = 'pago' GROUP BY p.tipo";

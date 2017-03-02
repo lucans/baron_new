@@ -58,7 +58,7 @@
                       <th>Total</th>
 
                       <tr ng-repeat="pedido in fechamento.pedidos_pagos">
-                        <td>{{pedido.nome}} - {{pedido.codpedido}}</td>
+                        <td>{{pedido.nome}}</td>
                         <td ng-bind="pedido.endereco"></td>
                         <td ng-bind="pedido.tipo"></td>
                         <td ng-bind="pedido.qtd"></td>
@@ -93,7 +93,7 @@
 
 
                       <tr ng-repeat="pedido in fechamento.pedidos_fiado">
-                        <td>{{pedido.nome}} - {{pedido.codpedido}}</td>
+                        <td>{{pedido.nome}}</td>
                         <td ng-bind="pedido.endereco"></td>
                         <td ng-bind="pedido.tipo"></td>
                         <td ng-bind="pedido.qtd"></td>

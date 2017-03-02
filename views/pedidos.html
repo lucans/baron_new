@@ -22,7 +22,7 @@
 
                   <div class="input-field col l12 s12">
                     <datepicker class="col" date-format="dd/MM/yyyy">
-                      <input value="" ng-model="oPedido.dia"  type="text" placeholder="Data">
+                      <input value="" ng-model="oPedido.dia"  type="text" placeholder="Data" mask='39/19/9999' ng-init="oPedido.dia = hoje">
                     </datepicker>
                   </div>  
                     
@@ -44,11 +44,11 @@
                     <!-- <label for="nome">Nome</label> -->
                   </div>                
                   <div class="input-field col l4 s12">
-                    <input value="" ng-model="oPedido.endereco" type="text"  class="validate" ng-change="getClientesByString(oPedido)" placeholder="Endereço">
+                    <input value="" ng-model="oPedido.endereco" type="text"  class="validate" placeholder="Endereço">
                     <!-- <label for="endereco">Endereço</label> -->
                   </div>               
                   <div class="input-field col l4 s12">
-                    <input value="" ng-model="oPedido.telefone" type="text"  class="validate" ng-change="getClientesByString(oPedido)" placeholder="Telefone">
+                    <input value="" ng-model="oPedido.telefone" type="text"  class="validate" placeholder="Telefone" mask='9?9999-9999'>
                     <!-- <label for="telefone">Telefone</label> -->
                   </div>
 

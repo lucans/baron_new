@@ -48,9 +48,9 @@ var app = angular.module('baron', ['ui.router','ngMask','720kb.datepicker','ngSa
     this.date = new Date();
     this.payment = new Date();
     
-    this.getHoje = function () {
-        var today = this.date.getDate();
-        var today = today + "/" + (this.date.getMonth()+1 < 10 ? '0' + (this.date.getMonth()+1) : (this.date.getMonth()+1) );
+    this.getHoje = function () {       
+        var today = (this.date.getDate() < 10 ? '0' + (this.date.getDate()) : (this.date.getDate()));
+        var today = today + "/" + (this.date.getMonth()+1 < 10 ? '0' + (this.date.getMonth()+1) : (this.date.getMonth()+1));
         var today = today + "/" + this.date.getFullYear();
 
         return today;
@@ -166,8 +166,8 @@ app.controller("pedidosCtrl", ['$scope', '$http', '$rootScope','DateProvider', f
 
     $rs.dia_semana = Date.dayOfWeek();
 
-    var hoje = Date.getHoje();
-    console.log(hoje);
+    $s.hoje = Date.getHoje();
+    console.log($s.hoje);
 
     var classe = 'Pedido';
 
@@ -229,7 +229,8 @@ app.controller("pedidosCtrl", ['$scope', '$http', '$rootScope','DateProvider', f
         $http.post(SERVER_PATH + "redirect.php?func=" + $s.func + "&c=" + classe, {
             oPedido: oPedido
         }).success(function(result){
-            $s.getPedidos();           
+            $s.getPedidos();        
+            $s.showToast("Excluído!");   
         });
 
     }         
@@ -349,7 +350,8 @@ app.controller("estoqueCtrl", ['$scope', '$http', '$rootScope','DateProvider', f
             oEstoque: oEstoque
         }).success(function(result){
             $s.getEstoques();       
-            $s.getEstoquesByTipo();    
+            $s.getEstoquesByTipo();   
+            $s.showToast("Excluído!");    
         });
 
     }       
@@ -499,7 +501,8 @@ app.controller("clientesCtrl", ['$scope', '$http', '$rootScope','DateProvider', 
         $http.post(SERVER_PATH + "redirect.php?func=" + $s.func + "&c=" + classe, {
             oCliente: oCliente
         }).success(function(result){
-            $s.getClientes();           
+            $s.getClientes();        
+            $s.showToast("Excluído!");      
         });
 
     }   

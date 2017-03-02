@@ -12,7 +12,7 @@
 		}
 
 
-		public function getData($sTable, $sWhere, $sFields){
+		public function getData($sTable, $sWhere, $sFields, $opt = ''){
 			
 			$sWhere = utf8_decode($sWhere);
 			$sFields = utf8_decode($sFields);
@@ -22,9 +22,9 @@
 			$sQuery = "SELECT $sFields FROM $sTable $sWhere";		
 
 
-			// if ($opt == 'morre') {
-				// die($sQuery);
-			// }
+			if ($opt == 'morre') {
+				die($sQuery);
+			}
 
 			$oStmt = mysqli_query($this->link, $sQuery); 
 
@@ -51,6 +51,8 @@
 			unset($sWhere);
 			
 		}		
+
+		
 
 
 		public function updateData($sTable, $sWhere, $sSet){
