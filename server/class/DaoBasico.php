@@ -7,7 +7,8 @@
 			if ($_SERVER['DOCUMENT_ROOT'] == 'C:/Users/Lucas/Documents/GitHub') {	
 			    $this->link = mysqli_connect("192.168.10.20","root","proxy","db_baron");
 			} else{
-			    $this->link = mysqli_connect("localhost","root","","db_baron");	
+			    // $this->link = mysqli_connect("localhost","root","","db_baron");	
+			    $this->link = mysqli_connect('localhost','proxycom_admin','rMeQkCJWO2WxGt7C','proxycom_baron');
 			}
 		}
 
@@ -43,9 +44,13 @@
 		}		
 
 
-		public function insertData($sTable, $sSet){
+		public function insertData($sTable, $sSet, $opt = ''){
 
 			$sQuery = "INSERT INTO $sTable $sSet";
+
+			if ($opt == 'morre') {
+				die($sQuery);
+			}
 
 			mysqli_query($this->link, $sQuery); 
 			unset($sWhere);

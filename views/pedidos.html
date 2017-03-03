@@ -1,4 +1,4 @@
-<div ng-controller="userCtrl">
+﻿<div ng-controller="userCtrl">
   <div class="user" ng-init="getPedidos()">
 
     <div class="row">
@@ -87,17 +87,17 @@
                     {{pedido.qtd}} <small>x</small> {{pedido.tipo}} | <b>{{pedido.endereco}}</b> | {{pedido.telefone}}</p>  
                   </div>
                   <div class="card-action">
-                    <button class="btn grey darken-3 right white-text fa fa-trash" ng-click="deletePedido(pedido)"></button>
+                    <button class="btn col s1 grey darken-3 right white-text fa fa-trash" ng-click="deletePedido(pedido)"></button>
 
                     <button class="btn red white-text" ng-click="changeEntrega(pedido)" ng-show="pedido.entrega == 'pendente'">Pendente</button>
-                    <button class="btn green white-text" ng-click="changeEntrega(pedido)" ng-show="pedido.entrega == 'entregue'">Entregue</button>              
+                    <button class="btn col s4 green white-text" ng-click="changeEntrega(pedido)" ng-show="pedido.entrega == 'entregue'">Entregue</button>              
 
                     <button class="btn green white-text" ng-click="changePagamento(pedido)" ng-show="pedido.pagamento == 'pago' && pedido.entrega == 'entregue'">Pago</button>
                     <button class="btn orange white-text" ng-click="changePagamento(pedido)" ng-show="pedido.pagamento == 'fiado' && pedido.entrega == 'entregue'">Fiado</button> 
                   
-                    <a href="" class="white black-text col l2 s3 right" ng-show="pedido.pagamento == 'fiado'">
+                    <a href="" class="white black-text col l2 s2 right" ng-show="pedido.pagamento == 'fiado'">
                         <datepicker class="col s12" date-format="dd/MM/yyyy">                                          
-                          <input value="" ng-change="updatePedido(pedido)" ng-model="pedido.previsao" type="text" placeholder="Data">
+                          <input value="" ng-change="updatePedido(pedido)" ng-model="pedido.previsao" type="text" mask='39/19/9999' placeholder="Data">
                         </datepicker>
                     </a> 
               

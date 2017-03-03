@@ -1,4 +1,4 @@
-<div ng-controller="userCtrl">
+﻿<div ng-controller="userCtrl">
   <div ng-init="getEstoques()">
     <div class="row">
 
@@ -73,11 +73,11 @@
                   <div class="card-content">
                     <span class="card-title">{{pedido.nome}} Entrada</span>       
                     <p>                                                      
-                      <button class="btn grey darken-3 white-text" ng-bind="estoque.tipo"></button>
-                      <button class="btn grey darken-3 white-text">{{estoque.qtd}} Unidades</button>
-                      <button class="btn grey darken-3 white-text">{{estoque.qtd * estoque.preco | currency : "R$ "}}</button>
+                      <button class="btn col s2 grey darken-3 white-text" ng-bind="estoque.tipo"></button>
+                      <button class="btn col s4 grey darken-3 white-text">{{estoque.qtd}} Unidades</button>
+                      <button class="btn col s4 grey darken-3 white-text">{{estoque.qtd * estoque.preco | currency : "R$ "}}</button>
                       <button class="btn grey darken-3 white-text" ng-bind="estoque.obs"></button>
-                      <button class="btn red darken-3 white-text right fa fa-trash" ng-click="deleteEstoque(estoque)"></button>
+                      <button class="btn col s1 red darken-3 white-text right fa fa-trash" ng-click="deleteEstoque(estoque)"></button>
                     </p>                                        
                   </div>
                 </div>

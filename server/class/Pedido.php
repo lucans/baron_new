@@ -81,22 +81,29 @@
 		}	
 
 		public function insertPedido($user, $q, $aDados){
-		
+			
+			$Cliente = new Cliente();
+
 			if (isset($aDados->oPedido->codcliente)) {
-				Cliente::updateCliente("1", "", $aDados);
+				$Cliente->updateCliente("1", "", $aDados);
 			} else {
-				$aDados->oPedido->codcliente = Cliente::insertCliente("1", "", $aDados);				
+				$aDados->oPedido->codcliente = $Cliente->insertCliente("1", "", $aDados);				
 			}
 
-			Generic::getPreco($aDados->oPedido->tipo, "preco_venda");
+			$Generic = new Generic();
+			$Generic->getPreco($aDados->oPedido->tipo, "preco_venda");
 
-			$aDados->oPedido->preco = Generic::getPreco($aDados->oPedido->tipo, "preco_venda");
+			$aDados->oPedido->preco = $Generic->getPreco($aDados->oPedido->tipo, "preco_venda");
 
 			$aDados->oPedido->dia = implode('-', array_reverse(explode('/', $aDados->oPedido->dia)));
 
 			$aDados->oPedido->dtcadastro = date("Y-m-d H:i:s");
 
 			$aDados->oPedido->coduser = $user;
+
+			unset($aDados->oPedido->nome);
+			unset($aDados->oPedido->endereco);
+			unset($aDados->oPedido->telefone);			
 
 			$sSet = buildSet($aDados);		
 			

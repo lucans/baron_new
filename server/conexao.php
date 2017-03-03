@@ -3,7 +3,8 @@ if ($_SERVER['DOCUMENT_ROOT'] == 'C:/Users/Lucas/Documents/GitHub') {
 	// mysql_connect('192.168.10.20','root','proxy');
     $link = mysqli_connect("192.168.10.20","root","proxy","db_baron");
 } else{
-    $link = mysqli_connect("localhost","root","","db_baron");
+    $link = mysqli_connect('localhost','proxycom_admin','rMeQkCJWO2WxGt7C','proxycom_baron');
+    // $link = mysqli_connect("localhost","root","","db_baron");
 	// mysql_connect('localhost','root','');
 }
 
