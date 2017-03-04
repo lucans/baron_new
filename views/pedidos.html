@@ -1,4 +1,5 @@
-﻿<div ng-controller="userCtrl">
+<div ng-controller="userCtrl">
+
   <div class="user" ng-init="getPedidos()">
 
     <div class="row">
@@ -57,12 +58,14 @@
             </div>
             <div class="card-action">
               <button type="submit" class="btn blue darken-3" ng-click="sendPedido(oPedido)"><i class="fa fa-plus"></i></button>
+              <button type="submit" class="btn blue darken-3 right" ng-click="getPedidos()"><i class="fa fa-refresh"></i></button>
             </div>
           </div>
         </div>
 
         <div class="collection">
           <a href="javascript:void(0)" ng-repeat="cliente in clientes" class="collection-item" 
+              ng-class="{'orange white-text' : cliente.total_pedidos_pendentes > 0}"
               ng-click="oPedido.nome = cliente.nome;
                         oPedido.endereco = cliente.endereco; 
                         oPedido.codcliente = cliente.codcliente; 
@@ -95,7 +98,7 @@
                     <button class="btn green white-text" ng-click="changePagamento(pedido)" ng-show="pedido.pagamento == 'pago' && pedido.entrega == 'entregue'">Pago</button>
                     <button class="btn orange white-text" ng-click="changePagamento(pedido)" ng-show="pedido.pagamento == 'fiado' && pedido.entrega == 'entregue'">Fiado</button> 
                   
-                    <a href="" class="white black-text col l2 s2 right" ng-show="pedido.pagamento == 'fiado'">
+                    <a href="" class="white black-text col l2 s2 right" ng-show="pedido.pagamento == 'fiado' && pedido.entrega == 'entregue'">
                         <datepicker class="col s12" date-format="dd/MM/yyyy">                                          
                           <input value="" ng-change="updatePedido(pedido)" ng-model="pedido.previsao" type="text" mask='39/19/9999' placeholder="Data">
                         </datepicker>

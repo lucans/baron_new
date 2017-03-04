@@ -91,9 +91,7 @@
 			$sTable = "precos";
 			$sWhere = " WHERE tipo = '$tipo'";		
 
-			$aTipo = $this->getData($sTable, $sWhere, $this->sFields);
-			
-			// die(print_r($aTipo));
+			$aTipo = $this->getData($sTable, $sWhere, $this->sFields);			
 
 			return $aTipo[0][$tipo_preco];
 		}

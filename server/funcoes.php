@@ -1,12 +1,5 @@
 <?php
 
-if ($_SERVER['DOCUMENT_ROOT'] == 'C:/Users/Lucas/Documents/GitHub') {
-    $link = mysqli_connect("192.168.10.20","root","proxy","db_baron");
-} else{
-    // $link = mysqli_connect("localhost","root","","db_baron");
-    $link = mysqli_connect('localhost','proxycom_admin','rMeQkCJWO2WxGt7C','proxycom_baron');
-}
-
 include('class/DaoBasico.php');
 require_once('class/Pedido.php');
 require_once('class/Usuario.php');

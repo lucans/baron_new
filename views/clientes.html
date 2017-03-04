@@ -34,6 +34,7 @@
           <th>Endereço</th>
           <th>Tel.</th>
           <th>Última Compra (Dias)</th>
+          <th>Pedidos Pendentes</th>
           <th></th>
 
           <tr ng-repeat="oCliente in clientes | filter: pesquisaCliente"
@@ -41,10 +42,11 @@
                 'orange lighten-3' : oCliente.ultima_compra_dias > 5 && oCliente.ultima_compra_dias <= 45,
                 'red lighten-3' : oCliente.ultima_compra_dias > 45}">
 
-            <td><b>{{oCliente.nome}} </b></td>
-            <td><b>{{oCliente.endereco}} </b></td>
-            <td><b>{{oCliente.telefone}} </b></td>
-            <td><b>{{oCliente.ultima_compra_dias}} dias atrás. </b></td>
+            <td><b>{{oCliente.nome}}</b></td>
+            <td><b>{{oCliente.endereco}}</b></td>
+            <td><b>{{oCliente.telefone}}</b></td>
+            <td><b>{{oCliente.ultima_compra_dias}} dias atrás.</b></td>
+            <td><b>{{oCliente.total_pedidos_pendentes}}</b></td>
             <td><button class="btn red white-text badge fa fa-times right" ng-click="deleteCliente(oCliente)"></button></td>
           </tr>
         </table>

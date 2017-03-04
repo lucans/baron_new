@@ -20,10 +20,6 @@ if (isset($_GET['q'])) {
 	$q = '';
 }
 
-
-
-// die(print_r($aDados));
-
 switch ($c) {
 	case 'Pedido':
 		$Pedido = new Pedido();

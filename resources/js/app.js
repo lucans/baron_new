@@ -190,7 +190,7 @@ app.controller("pedidosCtrl", ['$scope', '$http', '$rootScope','DateProvider', f
         $s.func = 'getPedidos';
 
         $http.get(SERVER_PATH + "redirect.php?func=" + $s.func + "&c=" + classe).success(function(result){
-            $s.pedidos = result;               
+            $s.pedidos = result;                         
         });
     };   
 
@@ -207,7 +207,7 @@ app.controller("pedidosCtrl", ['$scope', '$http', '$rootScope','DateProvider', f
             oPedido: oPedido
         }).success(function(result){
             $s.getPedidos();
-            $s.showToast("Pedido salvo!");
+            $s.showToast("Pedido salvo!");          
         });
     }     
 

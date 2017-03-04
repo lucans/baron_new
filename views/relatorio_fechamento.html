@@ -42,7 +42,7 @@
 
       </div> 
 
-
+      <!-- TOTAL RECEBIDOS -->
         <div class="" ng-repeat="fechamento in relatorios">
           <div class="col s12 m4">
             <div class="card">
@@ -50,7 +50,7 @@
                 <span class="card-title">{{fechamento.parte}} parte do mês <span class="badge blue darken-3 white-text">{{fechamento.intervalo}}</span></span>
           
                     <table class="striped bordered responsive-table">
-                      <tr class="green lighten-4"><td colspan="5">Pedidos Vendidos e Recebidos</td></tr>
+                      <tr class="blue lighten-4"><td colspan="5">Pedidos Vendidos e Recebidos</td></tr>
                       <th>Nome</th>
                       <th>Endereço</th>
                       <th>Tipo</th>
@@ -65,7 +65,7 @@
                         <td>{{pedido.qtd * pedido.preco | currency : "R$ "}}</td>
                       </tr>
 
-                      <tr class="green lighten-4"><td colspan="5">Totais</td></tr>
+                      <tr class="blue lighten-4"><td colspan="5">Totais</td></tr>
 
                       <tr ng-repeat="total_pago in fechamento.totais_pagos">
                         <td>{{total_pago.tipo}}</td>
@@ -80,7 +80,7 @@
                   </div>                  
                 </div>                  
 
-
+                <!-- TOTAL RECEBIMENTO PENDENTE -->
                 <div class="card">
                   <div class="card-content">
                     <table class="striped bordered responsive-table">
@@ -109,6 +109,24 @@
                           <td></td>
                           <td>{{total_pago.total_valor | currency : "R$ "}}</td>                                    
                         </tr>
+                    </table>
+                  </div>              
+              </div>
+
+              <!-- TOTAL GERAL -->
+              <div class="card">
+                  <div class="card-content">
+                    <table class="striped bordered responsive-table">
+                    <tr class="green lighten-1"><td colspan="5">Total Geral (Pagos e Fiado)</td></tr>
+                      <th>Tipo</th>
+                      <th>Qtd</th>
+                      <th>Total</th>                      
+
+                      <tr ng-repeat="total in fechamento.total_geral">
+                        <td>{{total.tipo}}</td>
+                        <td>{{total.total_qtd}} Un.</td>
+                        <td>{{total.total_valor | currency : "R$ "}}</td>                       
+                      </tr>                   
                     </table>
                   </div>              
               </div>

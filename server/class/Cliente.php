@@ -14,17 +14,41 @@
 			$sWhere = "WHERE ativo = 'S' ORDER BY ultima_compra_dias DESC";
 
 			$aClientes = $this->getData($this->sTable, $sWhere, $sFields);
+
+
+			foreach ($aClientes as $key => $cliente) {				
+				$aClientes[$key]['total_pedidos_pendentes'] = self::getFiadoByCliente($cliente["codcliente"]);					
+			}
+
 	
 			echo json_encode($aClientes);
 
 		}
 
 
+		public function getFiadoByCliente($codcliente){
+			
+			$sTable = "pedidos";
+
+			$sFields = "codpedido, COUNT(*) AS total";
+
+			$sWhere = " WHERE entrega = 'entregue' AND pagamento = 'fiado' AND codcliente = '$codcliente' ";
+
+			$aTotal = $this->getData($sTable, $sWhere, $sFields);					
+
+			return $aTotal[0]["total"];
+
+		}
+
 		public function getClientesByString($user, $q, $aDados){
 		
 			$sWhere = " WHERE CONCAT(nome, endereco, telefone) LIKE '%" . $aDados->oPedido->nome . "%' AND ativo = 'S' LIMIT 3";
 
 			$aClientes = $this->getData($this->sTable, $sWhere, $this->sFields);					
+
+			foreach ($aClientes as $key => $cliente) {				
+				$aClientes[$key]['total_pedidos_pendentes'] = self::getFiadoByCliente($cliente["codcliente"]);					
+			}
 
 			echo json_encode($aClientes);
 
@@ -59,8 +83,8 @@
 
 			$ultima_compra = implode('-', array_reverse(explode('/', $aDados->oPedido->dia)));
 
-			$sSet = "SET nome = '" . $aDados->oPedido->nome . "',
-					 	 endereco = '" . $aDados->oPedido->endereco . "',
+			$sSet = "SET nome = '" . utf8_decode($aDados->oPedido->nome) . "',
+					 	 endereco = '" . utf8_decode($aDados->oPedido->endereco) . "',
 					 	 telefone = '" . $aDados->oPedido->telefone . "',
 					 	 ultima_compra = '$ultima_compra'";	
 			

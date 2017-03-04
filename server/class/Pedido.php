@@ -183,6 +183,9 @@
 			$aRelatorio["primeira"]["totais_fiado"] = $this->getData($sTable, $sWhere, $sFields);
 			
 
+			$sWhere = " WHERE dia BETWEEN '" . $aDados->oRelatorio->ano . "-" . $aDados->oRelatorio->mes . "-01' AND '" . $aDados->oRelatorio->ano . "-" . $aDados->oRelatorio->mes . "-10' GROUP BY p.tipo";
+			$aRelatorio["primeira"]["total_geral"] = $this->getData($sTable, $sWhere, $sFields);
+			
 
 
 
@@ -215,6 +218,10 @@
 			$sWhere = " WHERE dia BETWEEN '" . $aDados->oRelatorio->ano . "-" . $aDados->oRelatorio->mes . "-11' AND '" . $aDados->oRelatorio->ano . "-" . $aDados->oRelatorio->mes . "-20' AND pagamento = 'fiado' GROUP BY p.tipo";
 			$aRelatorio["segunda"]["totais_fiado"] = $this->getData($sTable, $sWhere, $sFields);
 
+			$sWhere = " WHERE dia BETWEEN '" . $aDados->oRelatorio->ano . "-" . $aDados->oRelatorio->mes . "-11' AND '" . $aDados->oRelatorio->ano . "-" . $aDados->oRelatorio->mes . "-20' GROUP BY p.tipo";
+			$aRelatorio["segunda"]["total_geral"] = $this->getData($sTable, $sWhere, $sFields);
+
+
 
 
 
@@ -244,6 +251,9 @@
 			
 			$sWhere = " WHERE dia BETWEEN '" . $aDados->oRelatorio->ano . "-" . $aDados->oRelatorio->mes . "-21' AND LAST_DAY('" . $aDados->oRelatorio->ano . "-" . $aDados->oRelatorio->mes . "-15') AND pagamento = 'fiado' GROUP BY p.tipo";
 			$aRelatorio["terceira"]["totais_fiado"] = $this->getData($sTable, $sWhere, $sFields);
+			
+			$sWhere = " WHERE dia BETWEEN '" . $aDados->oRelatorio->ano . "-" . $aDados->oRelatorio->mes . "-21' AND LAST_DAY('" . $aDados->oRelatorio->ano . "-" . $aDados->oRelatorio->mes . "-15') GROUP BY p.tipo";
+			$aRelatorio["terceira"]["total_geral"] = $this->getData($sTable, $sWhere, $sFields);
 	
 
 			echo json_encode($aRelatorio);
